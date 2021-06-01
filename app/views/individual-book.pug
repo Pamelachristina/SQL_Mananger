@@ -1,0 +1,18 @@
+extends layout.pug 
+
+block content 
+    table(class="center") 
+        thead 
+            tr 
+                th Title 
+                th Author 
+                th Genre 
+                th Year
+
+            tr 
+                td= book.title
+                td= book.author 
+                td= book.genre 
+                td= book.year 
+    br
+    a(class="button", href="/") Home 
