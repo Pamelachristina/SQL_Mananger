@@ -30,24 +30,24 @@ app.use(function(req, res, next) {
   const err = new Error();
   err.status = 404;
   err.message = 'Oh no! You have reached a page that does not exist.';
-  res.render('error', { err });
+  next (err);
     
   }); 
 
 // global error handler
 app.use(function(err, req, res, next) {
-  
+  res.locals.error = err
 
   if(err.status === 404 ){
     err.message = 'Oh no! You have reached a page that does not exist.';
     console.log(err.message);
     res.status(err.status);
-    return res.render('error', { err });
+    return res.render('page-not-found');
 
   } else {
     err.message = 'Sorry this page does not exist.';
     console.log(err.message);
-    return res.status(err.status || 500).render('error', { err });
+    return res.render('error', { err });
   }
  
   

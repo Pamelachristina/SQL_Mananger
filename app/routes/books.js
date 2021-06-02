@@ -63,13 +63,19 @@ router.post('/books/new', asyncHandler(async (req, res) => {
 
 /* GET individual book. */
 router.get("/books/:id", asyncHandler(async (req, res, next) => {
+
   const book = await Book.findByPk(req.params.id);
   console.log(book);
   //catch incorrect book.id request
+  console.log(res.status);
   if(book){
     res.render("update-book", { book });
   } else {
-    res.render('page-not-found');
+    const error = new Error();
+    error.status = 404
+    error.message = ('abcdefg');
+    throw error 
+    
   }
 }));
 
