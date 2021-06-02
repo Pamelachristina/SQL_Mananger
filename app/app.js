@@ -27,27 +27,25 @@ app.use('/', books);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   console.log('404 error handler called')
-  const err = new Error();
-  err.status = 404;
-  err.message = 'Oh no! You have reached a page that does not exist.';
-  next (err);
+
+  res.status(404).render('page-not-found')
     
   }); 
 
 // global error handler
 app.use(function(err, req, res, next) {
+  console.log('global');
   res.locals.error = err
 
   if(err.status === 404 ){
-    err.message = 'Oh no! You have reached a page that does not exist.';
-    console.log(err.message);
+    res.status(404).render('page-not-found', { err });
+    /* console.log(err.message);
     res.status(err.status);
-    return res.render('page-not-found');
+    return res.render('page-not-found'); */
 
   } else {
-    err.message = 'Sorry this page does not exist.';
-    console.log(err.message);
-    return res.render('error', { err });
+    err.message = err.message || 'Oops! looks like something went wrong on the server.';
+    res.status(err.status || 500).render('error', { err });
   }
  
   
